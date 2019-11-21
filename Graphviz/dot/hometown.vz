@@ -1,0 +1,34 @@
+digraph Hometown {
+  hokkai[label="광서\n북해"; shape=polygon,sides=6,peripheries=2]; /* city */
+  siku[label="시구"];
+  kappo[label="합포"];
+
+  subgraph Kappo {
+    rinsyu[label="염주"];
+    uka[label="오가"];
+      ekioku[label="우리 마을"; shape=box; style=filled,color=".7 .3 1.0"];
+    sechan[label="서장"];
+    sakan[label="사강"];
+
+    edge[color=red];
+    hokkai -> kappo [style=dotted];
+    kappo -> uka [label="고향"];
+    uka -> ekioku;
+
+    edge[color=black];
+    kappo -> rinsyu;
+    kappo -> sechan;
+    kappo -> sakan;
+  }
+
+  subgraph Siku {
+    kaijin[label="해성"];
+    ginkai[label="은해"];
+    tetusankan[label="철산강"];
+  
+    hokkai -> siku;
+    siku -> kaijin;
+    siku -> ginkai;
+    siku -> tetusankan;
+  }
+}
