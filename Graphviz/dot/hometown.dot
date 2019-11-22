@@ -16,9 +16,7 @@ digraph Hometown {
     uka -> ekioku;
 
     edge[color=black];
-    kappo -> rinsyu;
-    kappo -> sechan;
-    kappo -> sakan;
+    kappo -> { rinsyu, sechan, sakan };
   }
 
   subgraph Siku {
@@ -27,8 +25,6 @@ digraph Hometown {
     tetusankan[label="철산강"];
   
     hokkai -> siku;
-    siku -> kaijin;
-    siku -> ginkai;
-    siku -> tetusankan;
+    siku -> { kaijin, ginkai, tetusankan };
   }
 }

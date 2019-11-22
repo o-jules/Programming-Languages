@@ -1,0 +1,67 @@
+
+digraph ReactLifecycle {
+  node[shape=box];
+
+  // render phase
+  constructor[label="constructor()"];
+  newProps[label="new props"];
+  setState[label="setState()"];
+  forceUpdate[label="forceUpdate()"];
+
+  getDerivedStateFromProps[shape=record, label="<f0>|<f1>getDerivedStateFromProps()|<f2>"];
+  shouldComponentUpdate[label="shouldComponentUpdate()"];
+  render[shape=record; label="<f0>|<f1>render()|<f2>"];
+
+  // pre-commit phase
+  node[style=dashed];
+  getSnapshotBeforeUpdate[label="getSnapshotBeforeUpdate()";];
+
+  // commit phase
+  node[color=purple,style=solid];
+  reactUpdate[shape=record; label="<f0> |<f1>React updates DOM and refs|<f2>"; labelFontname="italic"];
+  componentDidMount[label="componentDidMount()"];
+  componentDidUpdate[label="componentDidUpdate()"];
+  componentWillUnmount[label="componentWillUnmount()"];
+  node[color=black];
+
+  subgraph mounting {
+    label="Mounting";
+    edge[color=green];
+
+    constructor ->
+    getDerivedStateFromProps:f0 ->
+    render:f0 ->
+    reactUpdate:f0 ->
+    componentDidMount;
+  }
+
+  subgraph updating {
+    label="Updating";
+    edge[color=blue];
+  
+    edge[style=dashed];
+    { newProps, setState } ->
+    getDerivedStateFromProps:f1 ->
+    shouldComponentUpdate;
+    shouldComponentUpdate -> render:f1 [label=" true", labelFontname="italic"];
+
+    edge[style=dotted];
+    forceUpdate ->
+    getDerivedStateFromProps:f2 ->
+    render:f1;
+  
+    edge[style=solid];
+    render:f1 ->
+    getSnapshotBeforeUpdate ->
+    reactUpdate:f1 ->
+    componentDidUpdate;
+  }
+
+  subgraph unmounting {
+    label="Unmounting";
+
+    componentWillUnmount;
+  }
+
+  { rank = same; componentDidMount; componentDidUpdate; componentWillUnmount;}
+}
